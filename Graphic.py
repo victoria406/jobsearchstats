@@ -14,27 +14,30 @@ value_counts = third_column_values.value_counts(dropna=False)
 # Filter out NaN from the value counts
 value_counts_filtered = value_counts.dropna()
 
+# Calculate the total number of applications
+total_applications = len(third_column_values)
+
 # Plotting
 plt.figure(figsize=(10, 6))
 
 # Plotting bar plot
 value_counts_filtered.plot(kind='bar', color='skyblue')
 
+# Adding a bar for total applications
+plt.bar("Total Applications", total_applications, color='lightgreen', alpha=0.7)
+
 # Adding title and labels
 plt.title('Distribution of Application Outcomes')
 plt.xlabel('Outcome')
 plt.ylabel('Count')
 
-# Set y-axis ticks to include all numbers with an increment of 2
+# Set y-axis ticks to count by 5s and include the total number
 max_count = value_counts_filtered.max()
-plt.yticks(range(0, max_count + 1, 2))
+yticks_range = list(range(0, max_count + 1, 5)) + [total_applications]
+plt.yticks(yticks_range)
 
 # Rotate x-axis labels
 plt.xticks(rotation=45, ha='right')
-
-# Print the count of "Rejected" values
-rejected_count = df[df.iloc[:, 2] == "Rejected"].shape[0]
-print("Number of rejections:", rejected_count)
 
 # Show plot
 plt.tight_layout()  # Adjust layout to prevent clipping
